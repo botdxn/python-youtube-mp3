@@ -11,6 +11,7 @@ from pytube import YouTube
 from moviepy.editor import *
 import os
 import concurrent.futures
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainWindow(object):
@@ -42,6 +43,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
+        
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
@@ -59,6 +61,11 @@ class Ui_MainWindow(object):
         urls = self.linkBox.toPlainText().split('\n')
         with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
             futures = [executor.submit(self.get_single_song, url) for url in urls]
+            executor.shutdown(wait=True)
+        msg = QMessageBox()
+        msg.setWindowTitle("Zakończono")
+        msg.setText("Zakończono pracę")
+        msg.exec()
 
     def get_single_song(self, url):
         yt = YouTube(url)
