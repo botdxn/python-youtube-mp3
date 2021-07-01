@@ -73,11 +73,12 @@ class Ui_MainWindow(object):
         song_title = stream.title
         path = sys.path[0]
 
-        stream.download(output_path= path + '\\pobrane\\', filename=song_title)
-        conv = AudioFileClip(path + '\\pobrane\\' + song_title+'.mp4')
-        conv.write_audiofile(path + '\\pobrane\\' + song_title+'.mp3')
+        full_path = path + '\\pobrane\\'
+        stream.download(output_path = full_path, filename=song_title)
+        conv = AudioFileClip(full_path + song_title+'.mp4')
+        conv.write_audiofile(full_path + song_title+'.mp3')
         conv.close()
-        os.remove(path + '\\pobrane\\' + song_title+'.mp4')
+        os.remove(full_path + song_title+'.mp4')
         
 if __name__ == "__main__":
     import sys
